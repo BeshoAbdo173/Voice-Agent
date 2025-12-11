@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+requests
+langchain
+openai
+faiss-cpu
+aiofiles

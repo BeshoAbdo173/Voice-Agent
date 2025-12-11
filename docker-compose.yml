@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  rag_engine:
+    build: ./rag_engine
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MODEL_NAME=${MODEL_NAME}
+      - TWILIO_SERVER_BASE=http://twilio_server:3000
+    depends_on:
+      - twilio_server
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - API_CHAT_URL=http://rag_engine:8000/chat
+    depends_on:
+      - rag_engine
+
+  twilio_server:
+    build: ./twilio
+    ports:
+      - "3000:3000"
+    # The existing twilio server in `./twilio` should have its own Dockerfile or be adapted.
